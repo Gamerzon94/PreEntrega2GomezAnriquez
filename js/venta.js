@@ -17,9 +17,11 @@ let salir = 0;
 
 let contador = 0;
 
+let compraAnimatronico = "";
+
 let menu = `1.- [ADMINISTRACIÓN] Agregar animatronicos al Stock
 2.- Rentar un animatronico.
-3.- [NUEVA OPCIÓN] ¿Para que me alcanzá?
+3.- ¿Buscas un animatronico?
 4.- Consultar puntos de distribución.
 5.- Limpiar consola.
 6.- Finalizar.
@@ -78,6 +80,10 @@ function menuAnimatronicos(){
         }
         contador++;
     }
+}
+
+function buscarAnimatronico(animatronico){
+    return animatronico.nombre == compraAnimatronico;
 }
 
 //codigo de ejecucion
@@ -179,8 +185,14 @@ while (opcion != 6){
             }
         }
     }else if(opcion==3){
-        dinero=prompt("Indicanos por favor tu presupuesto para arrendar animatronicos:")
-        alcanzaAnimatronico(dinero);
+        compraAnimatronico=prompt("Indicanos por favor el animatronico que buscas:")
+        let resultadoBusqueda = listaAnimatronicos.find(buscarAnimatronico);
+        if(resultadoBusqueda!=null){
+            console.log("El animatronico "+resultadoBusqueda.nombre+" tiene un valor de $"+resultadoBusqueda.precio+" x dia y queda un stock de: "+resultadoBusqueda.stock);
+        }else{
+            console.log("No se encuentra ningun animatronico con el nombre: "+compraAnimatronico);
+        }
+        console.log(menu);
     }else if(opcion==4){
         console.log(`Los puntos de distribuicion para nuestros animatronicos en su ciudad son:
 
