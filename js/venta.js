@@ -3,7 +3,7 @@ let nombre = '';
 
 let opcion = '';
 
-let animatronico = '';
+let seleccion = '';
 
 let dias = '';
 
@@ -24,13 +24,6 @@ let menu = `1.- [ADMINISTRACIÓN] Agregar animatronicos al Stock
 5.- Limpiar consola.
 6.- Finalizar.
 `;
-
-let menuAnimatronicos = `1.- Freddy Fazbear $1.000 x dia
-2.- Bonnie $1.400 x dia
-3.- Chica $1.700 x dia
-4.- Foxy $800 x dia
-`;
-
 class Animatronico{
 
     constructor(nombre, precio, stock){
@@ -42,22 +35,13 @@ class Animatronico{
 
 //declaracion de funciones
 function rentarAnimatronico(valor, dias){
-    if(valor==1){
-        console.log("Usted tendra a Freddy Fazbear por "+dias+" dia(s) por el valor de: $"+1000*dias);
-        console.log(menu);
-    }else if(valor==2){
-        console.log("Usted tendra a Bonnie por "+dias+" dia(s) por el valor de: $"+1400*dias);
-        console.log(menu);
-    }else if(valor==3){
-        console.log("Usted tendra a Chica por "+dias+" dia(s) por el valor de: $"+1700*dias);
-        console.log(menu);
-    }else if(valor==4){
-        console.log("Usted tendra a Foxy por "+dias+" dia(s) por el valor de: $"+800*dias);
-        console.log(menu);
+    if(listaAnimatronicos[valor-1].stock>0){
+        console.log("Usted tendra a "+listaAnimatronicos[valor-1].nombre+" por "+dias+" dia(s) por el valor de: $"+listaAnimatronicos[valor-1].precio*dias);
+        listaAnimatronicos[valor-1].stock = listaAnimatronicos[valor-1].stock-1;
     }else{
-        console.log("Usted no ha seleccionado una opcion valida, será enviado al menu.");
-        console.log(menu);
+        console.log("Lamentamos informar que "+listaAnimatronicos[valor-1].nombre+" actualmente no tiene stock, seleccione otra opción.");
     }
+    console.log(menu);
 }
 
 function alcanzaAnimatronico(valor){
@@ -82,6 +66,18 @@ function alcanzaAnimatronico(valor){
         console.log("Lamentamos informarle que no puede rentar a Foxy valor referencial: $800 x dia.")
     }
     console.log(menu);
+}
+
+function menuAnimatronicos(){ 
+    contador = 1;
+    for(let animatronico of listaAnimatronicos){
+        if(animatronico.stock>0){
+            console.log(contador+".- "+animatronico.nombre+" $"+animatronico.precio+" x dia con stock de "+animatronico.stock);
+        }else{
+            console.log(contador+".- "+animatronico.nombre+" $"+animatronico.precio+" x dia actualmente sin stock");
+        }
+        contador++;
+    }
 }
 
 //codigo de ejecucion
@@ -168,12 +164,12 @@ while (opcion != 6){
     }else if(opcion==2){
         valido = 0;
         while(valido==0){
-            console.log(menuAnimatronicos);
-            animatronico=prompt("Ingrese el animatronico que desea rentar:");
+            menuAnimatronicos();
+            seleccion=prompt("Ingrese el animatronico que desea rentar:");
             dias=prompt("Ingrese la cantidad de dias que desea rentar:");
-            if(!isNaN(animatronico)&&!isNaN(dias)){
+            if(!isNaN(seleccion)&&!isNaN(dias)){
                 if(dias>0){
-                    rentarAnimatronico(animatronico,dias);
+                    rentarAnimatronico(seleccion,dias);
                     valido = 1;
                 }else{
                     console.log("La cantidad de dias no puede ser negativo, intentelo de nuevo.");
